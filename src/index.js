@@ -32,9 +32,27 @@ function playlist(state = [], action) {
 const store = createStore(playlist); // create store
 // store is immutable(we always create new version of store, don't change old)
 
-store.subscribe(() => console.log('subscribe', store.getState()))
+const addTrackButton = document.querySelector('.addTrackButton')
+const trackInput = document.querySelector('.trackInput')
+const list = document.querySelector('.list')
+
+store.subscribe(() => {
+	console.log('subscribe', store.getState())
+
+	trackInput.value = ''
+	list.innerHTML = ''
+	store.getState().forEach(track => {
+		const li = document.createElement('li')
+		li.textContent = track
+		list.appendChild(li)
+	})
+})
 
 // dispatch - function that change store
 // event(action) with type and payload
-store.dispatch({ type: 'ADD_TRACK', payload: 'Smells like teen spirit' })
-store.dispatch({ type: 'ADD_TRACK', payload: 'Sky is blue' })
+store.dispatch({ type: 'ADD_TRACK', payload: 'Here is my tracks' })
+
+addTrackButton.addEventListener('click', () => {
+	const trackName = trackInput.value
+	store.dispatch({ type: 'ADD_TRACK', payload: trackName })
+})
