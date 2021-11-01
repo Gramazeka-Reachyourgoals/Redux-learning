@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux'
+// connect is function decorator
 
-function App() {
+function App(props) {
+	const { testStore } = props
+	console.log(testStore)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+			<form onSubmit={() => false}>
+				<input type="text"/>
+				<button
+					type="submit"
+				>
+					Add track
+				</button>
+			</form>
+			<ul>
+				{testStore.map((track, index) =>
+					<li key={index}>{track}</li>
+				)}
+			</ul>
+    </>
   );
 }
 
-export default App;
+export default connect(
+	state => ({
+		testStore: state
+	}), // 1st argue - mapStateToProps
+	dispatch => ({})
+)(App);
