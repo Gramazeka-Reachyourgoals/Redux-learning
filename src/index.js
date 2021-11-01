@@ -22,7 +22,12 @@ function playlist(state = initialState, action) {
 	return state
 }
 
-const store = createStore(playlist); // create store
+/*
+if found redux devtools extension in chrome,
+then run it and pass as second argue,
+else pass undefined as argue
+*/
+const store = createStore(playlist, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()); // create store
 // store is immutable(we always create new version of store, don't change old)
 
 ReactDOM.render(
