@@ -5,29 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-
-const initialState = [
-	'Here is my tracks',
-	'Lovely darling...'
-]
-
-// reducer - function that takes state and action for change it, as argue
-function playlist(state = initialState, action) {
-	if (action.type === 'ADD_TRACK'){
-		return [
-			...state,
-			action.payload
-		]
-	}
-	return state
-}
+import reducer from './reducers'
 
 /*
 if found redux devtools extension in chrome,
 then run it and pass as second argue,
 else pass undefined as argue
 */
-const store = createStore(playlist, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()); // create store
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()); // create store
 // store is immutable(we always create new version of store, don't change old)
 
 ReactDOM.render(

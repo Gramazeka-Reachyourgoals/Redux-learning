@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 
 function App(props) {
 	const trackInput = useRef()
-	const { testStore, onAddTrack } = props
-	console.log(testStore)
+	const { tracks, onAddTrack } = props
+	console.log(tracks)
 
 	const addTrack = () => {
 		onAddTrack(trackInput.current.value)
@@ -24,7 +24,7 @@ function App(props) {
 				</button>
 			</form>
 			<ul>
-				{testStore.map((track, index) =>
+				{tracks.map((track, index) =>
 					<li key={index}>{track}</li>
 				)}
 			</ul>
@@ -34,7 +34,7 @@ function App(props) {
 
 export default connect(
 	state => ({
-		testStore: state
+		tracks: state.tracks
 	}), // 1st argue - mapStateToProps
 	dispatch => ({
 		// method onAddTrack will be available at props of component
