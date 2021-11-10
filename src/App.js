@@ -4,12 +4,16 @@ import { connect } from 'react-redux'
 
 function App(props) {
 	const trackInput = useRef()
-	const { tracks, onAddTrack } = props
-	console.log(tracks)
+	const searchInput = useRef()
+	const { tracks, onAddTrack, onFindTrack } = props // gets from connect(App) as props
 
 	const addTrack = () => {
 		onAddTrack(trackInput.current.value)
 		trackInput.current.value = ''
+	}
+
+	const findTrack = () => {
+		onFindTrack(searchInput.current.value)
 	}
 
   return (
@@ -23,9 +27,18 @@ function App(props) {
 					Add track
 				</button>
 			</form>
+			<form onSubmit={e => e.preventDefault()}>
+				<label htmlFor="search">Find a track </label>
+				<input
+					id='search'
+					type="text"
+					ref={searchInput}
+					onChange={findTrack}
+				/>
+			</form>
 			<ul>
 				{tracks.map((track, index) =>
-					<li key={index}>{track}</li>
+					<li key={index}>{track.name}</li>
 				)}
 			</ul>
     </>
@@ -34,12 +47,20 @@ function App(props) {
 
 export default connect(
 	state => ({
-		tracks: state.tracks
+		tracks: state.tracks.filter(track => track.name.includes(state.filterTracks))
+		// we can get from state modified data
 	}), // 1st argue - mapStateToProps
 	dispatch => ({
 		// method onAddTrack will be available at props of component
-		onAddTrack: (trackName) => {
-			dispatch({ type: 'ADD_TRACK', payload: trackName })
+		onAddTrack: (name) => {
+			const payload = {
+				id: Date.now().toString(),
+				name
+			}
+			dispatch({ type: 'ADD_TRACK', payload })
+		},
+		onFindTrack: (name) => {
+			dispatch({ type: 'FIND_TRACK', payload: name })
 		}
 	}) // 2nd argue - mapDispatchToProps
 )(App);
