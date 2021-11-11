@@ -1,11 +1,12 @@
 import { useRef } from 'react'
 import { connect } from 'react-redux'
 // connect is function decorator
+import getTracks from './actions/tracks'
 
 function App(props) {
 	const trackInput = useRef()
 	const searchInput = useRef()
-	const { tracks, onAddTrack, onFindTrack } = props // gets from connect(App) as props
+	const { tracks, onAddTrack, onFindTrack, onGetTracks } = props // gets from connect(App) as props
 
 	const addTrack = () => {
 		onAddTrack(trackInput.current.value)
@@ -36,6 +37,11 @@ function App(props) {
 					onChange={findTrack}
 				/>
 			</form>
+			<button
+				onClick={onGetTracks}
+			>
+				Get tracks
+			</button>
 			<ul>
 				{tracks.map((track, index) =>
 					<li key={index}>{track.name}</li>
@@ -61,6 +67,9 @@ export default connect(
 		},
 		onFindTrack: (name) => {
 			dispatch({ type: 'FIND_TRACK', payload: name })
+		},
+		onGetTracks: () => {
+			dispatch(getTracks()) // getTracks() is thunk/action creator
 		}
 	}) // 2nd argue - mapDispatchToProps
 )(App);
